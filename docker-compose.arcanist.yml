@@ -1,16 +1,10 @@
 services:
   grafana:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: final-ubuntu
-      args:
-        GO_BUILD_TAGS: oss
-        WIRE_TAGS: oss
-        JS_NODE_ENV: production
-        JS_YARN_BUILD_FLAG: build
-        JS_YARN_INSTALL_FLAG: --immutable
+    image: node:24-bookworm
+    working_dir: /app
+    command: ["bash", "benchmark/arcanist-grafana/runtime-start.sh"]
     environment:
+      CI: "1"
       GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
       GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
       GF_ANALYTICS_REPORTING_ENABLED: "false"
@@ -20,8 +14,23 @@ services:
       GF_SECURITY_ADMIN_USER: admin
       GF_SERVER_HTTP_PORT: "3000"
       GF_USERS_DEFAULT_THEME: light
+      HUSKY: "0"
+      PORT: "3000"
     ports:
       - "3000:3000"
     volumes:
+      - .:/app
       - ./benchmark/arcanist-grafana/provisioning:/etc/grafana/provisioning:ro
       - ./benchmark/arcanist-grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - arcanist-go-root:/usr/local/go
+      - arcanist-go-build-cache:/root/.cache/go-build
+      - arcanist-go-mod-cache:/go/pkg/mod
+      - arcanist-node-modules:/app/node_modules
+      - arcanist-yarn-cache:/root/.yarn
+
+volumes:
+  arcanist-go-root:
+  arcanist-go-build-cache:
+  arcanist-go-mod-cache:
+  arcanist-node-modules:
+  arcanist-yarn-cache:
