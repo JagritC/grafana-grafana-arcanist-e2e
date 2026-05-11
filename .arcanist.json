@@ -1,0 +1,27 @@
+{
+  "appRuntime": {
+    "kind": "web",
+    "runner": "docker",
+    "entry": {
+      "type": "compose",
+      "files": ["docker-compose.arcanist.yml"],
+      "service": "grafana"
+    },
+    "url": {
+      "hostPort": 3000,
+      "path": "/d/arcanist-panels/arcanist-panel-screenshot-benchmark?orgId=1&from=now-6h&to=now"
+    },
+    "ready": {
+      "path": "/login",
+      "timeoutSeconds": 1800
+    },
+    "open": {
+      "path": "/d/arcanist-panels/arcanist-panel-screenshot-benchmark?orgId=1&from=now-6h&to=now"
+    },
+    "e2e": {
+      "testCommand": "bash scripts/arcanist-runtime-test.sh",
+      "seedCommand": "bash scripts/arcanist-runtime-seed.sh",
+      "resetCommand": "bash scripts/arcanist-runtime-reset.sh"
+    }
+  }
+}
