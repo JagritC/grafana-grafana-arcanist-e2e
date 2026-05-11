@@ -22,14 +22,12 @@ services:
       - .:/app
       - ./benchmark/arcanist-grafana/provisioning:/etc/grafana/provisioning:ro
       - ./benchmark/arcanist-grafana/dashboards:/var/lib/grafana/dashboards:ro
-      - arcanist-go-root:/usr/local/go
       - arcanist-go-build-cache:/root/.cache/go-build
       - arcanist-go-mod-cache:/go/pkg/mod
       - arcanist-node-modules:/app/node_modules
       - arcanist-yarn-cache:/root/.yarn
 
 volumes:
-  arcanist-go-root:
   arcanist-go-build-cache:
   arcanist-go-mod-cache:
   arcanist-node-modules:
